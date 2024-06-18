@@ -6,7 +6,8 @@ import { UserModule } from './user/user.module';
 import { StartupModule } from './startup/startup.module';
 import { entities } from './utils/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StartupController } from './startup/constrollers/startup.controller';
+import { StartupController } from './startup/controllers/startup.controller';
+import { DocumentModule } from './document/document.module';
 
 
 @Module({
@@ -25,7 +26,7 @@ import { StartupController } from './startup/constrollers/startup.controller';
       database: process.env.POSTGRES_DB_NAME,
       synchronize: true,
       entities: entities,
-    }), StartupModule]
+    }), StartupModule, DocumentModule]
   ,
   controllers: [],
   providers: [],

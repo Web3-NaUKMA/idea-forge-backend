@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ICreateStartup } from "../../utils/DTO/startup.dto";
-import { SERVICES } from "../../utils/constants.util";
+import { SERVICES } from "../../utils/constants/services.util";
 import { IStartupService } from "../interfaces/startup.interface";
 
 
@@ -9,7 +9,8 @@ export class StartupService implements IStartupService {
     constructor(
     ) { }
     createStartup(startup: ICreateStartup) {
-        throw new Error("Method not implemented.");
+        console.log(startup)
+
     }
 
 }

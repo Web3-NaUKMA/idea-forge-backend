@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { SERVICES } from '../utils/constants.util';
+import { SERVICES } from '../utils/constants/services.util';
 import { StartupService } from './services/startup.service';
-import { StartupController } from './constrollers/startup.controller';
+import { StartupController } from './controllers/startup.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Startup } from '../utils/typeorm/models/Startup';
 
 
 @Module({
-    imports: [],
+    imports: [TypeOrmModule.forFeature([Startup])],
     controllers: [StartupController],
     providers: [
         {
