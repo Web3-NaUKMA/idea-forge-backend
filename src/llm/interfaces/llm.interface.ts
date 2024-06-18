@@ -1,3 +1,4 @@
 export interface ILLMService {
-    prepareParagraphs(text: string)
+    prepareParagraphs(text: string);
+    test();
 }

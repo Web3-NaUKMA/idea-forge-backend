@@ -12,6 +12,7 @@ export class DocumentService implements IDocumentService {
         @Inject(SERVICES.LLM) private readonly llmService: ILLMService,
     ) { }
     preprocess(text: string) {
+        this.llmService.test();
         return this.llmService.prepareParagraphs(text);
     }
 

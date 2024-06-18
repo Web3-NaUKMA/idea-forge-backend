@@ -15,7 +15,8 @@ import { DocumentModule } from './document/document.module';
   imports: [
     AuthModule, UserModule, StartupModule,
     ConfigModule.forRoot({
-      envFilePath: '.env.dev',
+      isGlobal: true,
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,8 +25,8 @@ import { DocumentModule } from './document/document.module';
       username: process.env.POSTGRES_DB_USERNAME,
       password: process.env.POSTGRES_DB_PASSWORD,
       database: process.env.POSTGRES_DB_NAME,
+      autoLoadEntities: true,
       synchronize: true,
-      entities: entities,
     }), StartupModule, DocumentModule]
   ,
   controllers: [],
