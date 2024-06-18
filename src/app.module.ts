@@ -8,12 +8,13 @@ import { entities } from './typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StartupController } from './startup/controllers/startup.controller';
 import { DocumentModule } from './document/document.module';
+import { LLMModule } from './llm/llm.module';
 
 
 @Module({
 
   imports: [
-    AuthModule, UserModule, StartupModule,
+    AuthModule, UserModule, StartupModule, LLMModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -27,7 +28,8 @@ import { DocumentModule } from './document/document.module';
       database: process.env.POSTGRES_DB_NAME,
       autoLoadEntities: true,
       synchronize: true,
-    }), StartupModule, DocumentModule]
+      entities: entities
+    }), StartupModule, DocumentModule, LLMModule]
   ,
   controllers: [],
   providers: [],

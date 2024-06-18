@@ -8,9 +8,8 @@ import { ILLMService } from "../interfaces/llm.interface";
 import OpenAI from "openai";
 import * as fs from 'fs';
 import * as readline from 'readline';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { LLMResponse } from "../../typeorm/models/Response";
+import {ICreateResponse} from  "../../utils/DTO/response.dto";
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -21,7 +20,11 @@ const rl = readline.createInterface({
 export class LLMService implements ILLMService {
     private openai: OpenAI;
 
-constructor() {
+constructor(
+    @InjectRepository(LLMResponse) private readonly responseRepository: Repository<LLMResponse>,
+
+) {
+    
     this.openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
     });
@@ -73,6 +76,9 @@ async prepareParagraphs(text: string) {
             console.log("Let's try again.");
         }
         }
+
+
+
     }
 
     loadUserData(userId: string): any {

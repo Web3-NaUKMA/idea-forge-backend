@@ -3,10 +3,11 @@ import { SERVICES } from '../utils/constants/services.util';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Startup } from '../typeorm/models/Startup';
 import { LLMService } from './services/llm.service';
+import { LLMResponse } from '../typeorm/models/Response';
 
 
 @Module({
-    imports: [],
+    imports: [TypeOrmModule.forFeature([LLMResponse])],
     controllers: [],
     providers: [
         {

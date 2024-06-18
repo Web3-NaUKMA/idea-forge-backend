@@ -5,10 +5,11 @@ import { DocumentController } from './controllers/document.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Startup } from '../typeorm/models/Startup';
 import { LLMModule } from '../llm/llm.module';
+import { LLMResponse } from '../typeorm/models/Response';
 
 
 @Module({
-    imports: [LLMModule],
+    imports: [LLMModule, TypeOrmModule.forFeature([LLMResponse])],
     controllers: [DocumentController],
     providers: [
         {
