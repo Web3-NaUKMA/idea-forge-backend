@@ -14,7 +14,7 @@ export class DocumentController {
 
     @Post()
     createDoc(@Body() doc: ICreateDocument) {
-        return this.documentService.prepareParagraphs(doc.text);
+        return this.documentService.preprocess(doc.text);
     }
 
 }

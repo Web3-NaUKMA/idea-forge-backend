@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, Post, Put } from "@nestjs/common";
 import { SERVICES } from "../../utils/constants/services.util";
 import { ROUTES } from "../../utils/constants/routes.util";
 
@@ -17,5 +17,9 @@ export class StartupController {
         return this.startupService.createStartup(startup);
     }
 
+    @Get(':id')
+    getStartup(@Param('id') id: number) {
+        return this.startupService.getStartup(id);
+    }
 
 }

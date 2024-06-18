@@ -3,7 +3,7 @@ import { SERVICES } from '../utils/constants/services.util';
 import { StartupService } from './services/startup.service';
 import { StartupController } from './controllers/startup.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Startup } from '../utils/typeorm/models/Startup';
+import { Startup } from '../typeorm/models/Startup';
 
 
 @Module({

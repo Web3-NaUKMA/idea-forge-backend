@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { IStartup } from '../../types/startup.interface';
+import { IStartup } from '../../utils/types/startup.interface';
 
 @Entity()
 export class Startup implements IStartup {

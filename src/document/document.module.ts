@@ -3,11 +3,12 @@ import { SERVICES } from '../utils/constants/services.util';
 import { DocumentService } from './services/document.service';
 import { DocumentController } from './controllers/document.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Startup } from '../utils/typeorm/models/Startup';
+import { Startup } from '../typeorm/models/Startup';
+import { LLMModule } from '../llm/llm.module';
 
 
 @Module({
-    imports: [],
+    imports: [LLMModule],
     controllers: [DocumentController],
     providers: [
         {

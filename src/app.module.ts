@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { StartupModule } from './startup/startup.module';
-import { entities } from './utils/typeorm';
+import { entities } from './typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StartupController } from './startup/controllers/startup.controller';
 import { DocumentModule } from './document/document.module';
@@ -15,7 +15,7 @@ import { DocumentModule } from './document/document.module';
   imports: [
     AuthModule, UserModule, StartupModule,
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: '.env.dev',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
