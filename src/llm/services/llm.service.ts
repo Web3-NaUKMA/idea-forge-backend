@@ -20,21 +20,21 @@ const rl = readline.createInterface({
 export class LLMService implements ILLMService {
     private openai: OpenAI;
 
-constructor(
-    @InjectRepository(LLMResponse) private readonly responseRepository: Repository<LLMResponse>,
+    constructor(
+      @InjectRepository(LLMResponse) private readonly responseRepository: Repository<LLMResponse>,
 
-) {
-    this.openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-    });
-}
+    ) {
+        this.openai = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+    }
 
-async prepareParagraphs(text: string) {
-    const req = `Please summarize the following text: ${text}`;
+    async prepareParagraphs(text: string) {
+        const req = `Please summarize the following text, response should be a markdown file: ${text}`;
 
         const completion = await this.openai.chat.completions.create({
-        messages: [{ role: "user", content: req }],
-        model: "gpt-4",
+            messages: [{ role: "user", content: req }],
+            model: "gpt-4",
         });
 
         return completion.choices[0].message.content;
@@ -42,46 +42,46 @@ async prepareParagraphs(text: string) {
 
     async chatWithOpenAI(messages: any[]) {
         const response = await this.openai.chat.completions.create({
-        model: 'gpt-4',
-        messages,
-        max_tokens: 500,
-        temperature: 0.5,
+            model: 'gpt-4',
+            messages,
+            max_tokens: 500,
+            temperature: 0.5,
         });
         return response.choices[0].message?.content?.trim();
     }
 
     async gatherAndConfirmInfo(userId: string, key: string, question: string, userData: any) {
         while (true) {
-        const userInput = await new Promise<string>((resolve) => rl.question(`${question}\n> `, resolve));
-        const messages = [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: question },
-            { role: "assistant", content: "Please provide a detailed description. If you need help, I can generate a suggestion for you." }
-        ];
-        
-        const generatedInput = userInput || await this.chatWithOpenAI(messages);
-        const summaryMessages = [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: `Summarize the following response: ${generatedInput}` },
-            { role: "assistant", content: "Please provide a concise summary of the user's response, ensuring clarity and completeness." }
-        ];
-        
-        const summary = await this.chatWithOpenAI(summaryMessages);
+            const userInput = await new Promise<string>((resolve) => rl.question(`${question}\n> `, resolve));
+            const messages = [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: question },
+                { role: "assistant", content: "Please provide a detailed description. If you need help, I can generate a suggestion for you." }
+            ];
 
-        const resp: ICreateResponse = {
-            stageId: 1,
-            content: summary,
-            prompt: 'dasjhdkja'
-        }
-        
-        console.log(`Summary: ${summary}`);
-        const confirm = await new Promise<string>((resolve) => rl.question("Do you approve this summary? (yes/no)\n> ", resolve));
-        if (confirm.toLowerCase() === 'yes') {
-            this.saveUserResponse(userId, key, summary, userData);
-            break;
-        } else {
-            console.log("Let's try again.");
-        }
+            const generatedInput = userInput || await this.chatWithOpenAI(messages);
+            const summaryMessages = [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: `Summarize the following response: ${generatedInput}` },
+                { role: "assistant", content: "Please provide a concise summary of the user's response, ensuring clarity and completeness." }
+            ];
+
+            const summary = await this.chatWithOpenAI(summaryMessages);
+
+            const resp: ICreateResponse = {
+                stageId: 1,
+                content: summary,
+                prompt: 'dasjhdkja'
+            }
+
+            console.log(`Summary: ${summary}`);
+            const confirm = await new Promise<string>((resolve) => rl.question("Do you approve this summary? (yes/no)\n> ", resolve));
+            if (confirm.toLowerCase() === 'yes') {
+                this.saveUserResponse(userId, key, summary, userData);
+                break;
+            } else {
+                console.log("Let's try again.");
+            }
         }
 
 
@@ -90,10 +90,10 @@ async prepareParagraphs(text: string) {
 
     loadUserData(userId: string): any {
         try {
-        const data = fs.readFileSync(`./${userId}_data.json`, 'utf8');
-        return JSON.parse(data);
+            const data = fs.readFileSync(`./${userId}_data.json`, 'utf8');
+            return JSON.parse(data);
         } catch (err) {
-        return {};
+            return {};
         }
     }
 
@@ -103,7 +103,7 @@ async prepareParagraphs(text: string) {
 
     saveUserResponse(userId: string, key: string, response: string, userData: any): void {
         if (!userData[userId]) {
-        userData[userId] = {};
+            userData[userId] = {};
         }
         userData[userId][key] = response;
         this.saveUserData(userId, userData);
@@ -113,26 +113,26 @@ async prepareParagraphs(text: string) {
         return userData[userId]?.[key] || '';
     }
 
-        async test() {
+    async test() {
         const userId = await new Promise<string>((resolve) => rl.question("Enter your user ID: ", resolve));
         const userData = this.loadUserData(userId);
 
         const questions = {
-        "idea": "Describe your idea in as much detail as possible.",
-        "passions": "Why are you passionate about the product?",
-        "complaints": "What complaints can you fix with your product?",
-        "ego": "How will this product help you grow and project your expertise?"
+            "idea": "Describe your idea in as much detail as possible.",
+            "passions": "Why are you passionate about the product?",
+            "complaints": "What complaints can you fix with your product?",
+            "ego": "How will this product help you grow and project your expertise?"
         };
 
         for (const key in questions) {
-        await this.gatherAndConfirmInfo(userId, key, questions[key], userData);
+            await this.gatherAndConfirmInfo(userId, key, questions[key], userData);
         }
 
         this.saveUserData(userId, userData);
 
         console.log(`All data saved for user ${userId}.`);
         rl.close();
-  }
+    }
 }
 
 
@@ -183,7 +183,7 @@ async prepareParagraphs(text: string) {
 //         return completion.choices[0].message.content;
 //     }
 
-   
+
 
 //     test(){
 
