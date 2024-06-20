@@ -12,10 +12,10 @@ import { IStartupService } from "../../startup/interfaces/startup.interface";
 @Controller(ROUTES.DOCUMENT)
 export class DocumentController {
     constructor(
-        @Inject(SERVICES.DOCUMENT) private readonly documentService: IDocumentService,
-        @Inject(SERVICES.LLM) private readonly llmService: ILLMService,
-        @Inject(SERVICES.STARTUP) private readonly startupService: IStartupService,
-     ) { }
+      @Inject(SERVICES.DOCUMENT) private readonly documentService: IDocumentService,
+      @Inject(SERVICES.LLM) private readonly llmService: ILLMService,
+      @Inject(SERVICES.STARTUP) private readonly startupService: IStartupService,
+    ) { }
 
     @Post()
     createDoc(@Body() doc: ICreateDocument) {
@@ -26,10 +26,10 @@ export class DocumentController {
     summarize(@Body() data: ISummarizeRequest) {
         const startup = this.startupService.getStartupById(data.startupId)
         const promptText =
-          `${startup.description}\n` +
-          `${data.passionQuestion}\n` +
-          `${data.complaintsQuestion}`
+          `1. ${startup.description}\n` +
+          `2. ${data.passionQuestion}\n` +
+          `3. ${data.complaintsQuestion}`
 
-        return this.llmService.prepareParagraphs(promptText)
+        return this.llmService.preprocessText(promptText)
     }
 }

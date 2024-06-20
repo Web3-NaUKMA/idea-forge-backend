@@ -6,10 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Startup } from '../typeorm/models/Startup';
 import { LLMModule } from '../llm/llm.module';
 import { LLMResponse } from '../typeorm/models/Response';
+import { StartupModule } from "../startup/startup.module";
 
 
 @Module({
-    imports: [LLMModule, TypeOrmModule.forFeature([LLMResponse])],
+    imports: [StartupModule, LLMModule, TypeOrmModule.forFeature([LLMResponse])],
     controllers: [DocumentController],
     providers: [
         {

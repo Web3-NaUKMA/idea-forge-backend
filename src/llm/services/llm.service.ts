@@ -30,7 +30,7 @@ export class LLMService implements ILLMService {
     }
 
     async prepareParagraphs(text: string) {
-        const req = `Please summarize the following text, response should be a markdown file: ${text}`;
+        const req = `Please summarize the following text: ${text}`;
 
         const completion = await this.openai.chat.completions.create({
             messages: [{ role: "user", content: req }],
@@ -39,6 +39,30 @@ export class LLMService implements ILLMService {
 
         return completion.choices[0].message.content;
     }
+
+    preProcessingPrompt_s1_q1(userInput: string): string {
+        return `Develop the users idea, try make something more bigger form it and then structure it into
+        1. The Idea
+           - Summarize the user's idea in a clear and concise manner.
+        2. Passion
+           - Explain why the user is passionate about this idea.
+        3. Complaints that could be fixed
+           - Create a table with two columns: Complaint and Solution. Summarize the complaints and how the product can resolve them.
+        4. Field of Expertise
+           - Provide a description of the technologies, methodologies, or deep knowledge required for implementation.
+        User Input: ${userInput}`;
+    }
+
+    async preprocessText(userInput: string) {
+        const preprocessedInput = this.preProcessingPrompt_s1_q1(userInput)
+        const messages = [
+            { role: "system", content: "You are a helpful assistant." },
+            { role: "user", content: preprocessedInput },
+            { role: "assistant", content: `Please save the answer as .md file and split this markdown by logical blocks, with content inside, and return it using xml, where tag is <block id="{id}">{block content}</block>, the content inside xml <block> should be pure markdown, no other tags. ${preprocessedInput}>. Don't add any comments, response should be only the resulting xml.` }
+        ];
+        return await this.chatWithOpenAI(messages);
+    };
+
 
     async chatWithOpenAI(messages: any[]) {
         const response = await this.openai.chat.completions.create({
