@@ -65,8 +65,15 @@ async prepareParagraphs(text: string) {
             { role: "user", content: `Summarize the following response: ${generatedInput}` },
             { role: "assistant", content: "Please provide a concise summary of the user's response, ensuring clarity and completeness." }
         ];
+        
         const summary = await this.chatWithOpenAI(summaryMessages);
 
+        const resp: ICreateResponse = {
+            stageId: 1,
+            content: summary,
+            prompt: 'dasjhdkja'
+        }
+        
         console.log(`Summary: ${summary}`);
         const confirm = await new Promise<string>((resolve) => rl.question("Do you approve this summary? (yes/no)\n> ", resolve));
         if (confirm.toLowerCase() === 'yes') {

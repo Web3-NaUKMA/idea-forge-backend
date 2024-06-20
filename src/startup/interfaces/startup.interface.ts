@@ -1,6 +1,8 @@
-import { ICreateStartup } from "../../utils/DTO/startup.dto";
+import { ICreateStartup, IUpdateStartup } from "../../utils/DTO/startup.dto";
 
 export interface IStartupService {
     createStartup(startup: ICreateStartup);
-    getStartup(id: number);
+    getStartupById(id: string);
+    updateStartup(startup: IUpdateStartup);
+    getAllStartups();
 }

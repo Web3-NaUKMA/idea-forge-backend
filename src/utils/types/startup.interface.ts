@@ -1,5 +1,9 @@
 export interface IStartup {
-    id: number;
-    name: string;
-    walletId: string;
+    id: string,
+    title: string,
+    description: String,
+    creators: String[],
+    dateCreated: Date,
+    stage: String,
+
 }

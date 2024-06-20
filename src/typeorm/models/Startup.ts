@@ -3,13 +3,23 @@ import { IStartup } from '../../utils/types/startup.interface';
 
 @Entity()
 export class Startup implements IStartup {
+
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
+
 
     @Column({ type: 'varchar', length: 511 })
-    name: string;
+    title: string;
 
-    @Column({ type: 'varchar', length: 511, default: null })
-    walletId: string | null;
+    @Column({ type: 'varchar' })
+    description: String;
 
+    @Column({ type: 'jsonb', default: [] })
+    creators: String[];
+
+    @Column({ type: 'timestamptz' })
+    dateCreated: Date;
+
+    @Column({ type: 'varchar' })
+    stage: String;
 }
