@@ -11,6 +11,9 @@ async function bootstrap() {
   } catch (err) {
     console.log(err);
   }
-
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
 }
 bootstrap();

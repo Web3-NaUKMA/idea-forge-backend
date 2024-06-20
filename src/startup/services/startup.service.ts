@@ -5,6 +5,7 @@ import { IStartupService } from "../interfaces/startup.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Startup } from "../../typeorm/models/Startup";
 import { Repository } from "typeorm";
+import { STAGES } from "../../utils/constants/stages.util";
 
 @Injectable()
 export class StartupService implements IStartupService {
@@ -22,6 +23,8 @@ export class StartupService implements IStartupService {
     }
 
     createStartup(startup: ICreateStartup) {
+        startup.dateCreated = new Date();
+        startup.stage = STAGES.IDEA_DEVELOPMENT;
         return this.startupRepository.save(startup);
     }
 

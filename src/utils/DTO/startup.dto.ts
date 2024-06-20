@@ -2,8 +2,8 @@ export interface ICreateStartup {
     title: string,
     description: String,
     creators?: String[],
-    dateCreated: Date,
-    stage: String
+    dateCreated?: Date,
+    stage?: String
 }
 
 export interface IUpdateStartup {
@@ -12,5 +12,5 @@ export interface IUpdateStartup {
     description?: String,
     creators?: String[],
     dateCreated?: Date,
-    stage?: String
+    stage?: String,
 }

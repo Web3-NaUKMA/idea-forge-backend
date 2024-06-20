@@ -24,7 +24,6 @@ constructor(
     @InjectRepository(LLMResponse) private readonly responseRepository: Repository<LLMResponse>,
 
 ) {
-    
     this.openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
     });
@@ -59,6 +58,7 @@ async prepareParagraphs(text: string) {
             { role: "user", content: question },
             { role: "assistant", content: "Please provide a detailed description. If you need help, I can generate a suggestion for you." }
         ];
+        
         const generatedInput = userInput || await this.chatWithOpenAI(messages);
         const summaryMessages = [
             { role: "system", content: "You are a helpful assistant." },
